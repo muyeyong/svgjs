@@ -10,7 +10,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "preview:svg": "svg2js preview -e 'src/assets' -o public -sep /",
-    "build:svg": "svg2js build -e 'src/assets' -o public -sep /"
+    "build:svg": "svg2js build -e src/assets -o public -sep /"
   },
   "dependencies": {
     "@svgjs/cli": "workspace:^",

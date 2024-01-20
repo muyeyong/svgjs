@@ -71,6 +71,7 @@ function showVersion() {
  */
 function build(preview?: boolean) {
   const spin = new Spinner('start find and optimize your svg files.');
+  console.log(argvs)
   const svg2js = new Svg2js(
     argvs.entry,
     {

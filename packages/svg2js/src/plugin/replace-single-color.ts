@@ -35,18 +35,35 @@ export const checkSingleColor = (svgStr: string): string[] => {
 }
 
 // 将单色图标的颜色改为 currentColor, 便于在 css 中修改颜色
-export function replaceSingleColor<T extends IData>(svgData: T) {
-  const [singleColor, secondColor] = checkSingleColor(svgData.data);
-
-  if (singleColor && !secondColor) {
+export function replaceSingleColor<T extends IData>(svgData: T, colors: string[]) {
+  const [singleColor] = colors;
     svgData.data = svgData.data.replace(singleColorReg, (str, color) => {
       if (color === singleColor) {
         return str.replace(matchColor, 'currentColor"'); 
       }
-
       return str;
     });
-  }
-
   return svgData;
+}
+
+// TODO 如果是多色的话，通过var变量控制颜色
+export function replaceMultiColorByVar<T extends IData>(svgData: T, colors: string[]) {
+  colors.forEach((singleColor, index) => {
+    svgData.data = svgData.data.replace(singleColorReg, (str, color) => {
+      if (color === singleColor) {
+        return str.replace(matchColor, 'var(--color-' + index + ')"'); 
+      }
+      return str;
+    });
+  })
+  return svgData
+}
+
+
+/** 替换svg颜色 */
+export function replaceColor<T extends IData>(svgData: T) {
+  const colors = checkSingleColor(svgData.data);
+  return colors.length > 1
+    ? replaceMultiColorByVar(svgData,colors)
+    : replaceSingleColor(svgData, colors);
 }

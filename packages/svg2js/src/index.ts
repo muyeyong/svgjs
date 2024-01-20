@@ -6,7 +6,7 @@ import { createPreviewPage } from './template/preview-page';
 import { svgoPlugins } from './svgo-plugins';
 import { collectInfo } from './plugin/collect-info';
 import { removeWidthHeight } from './plugin/remove-width-height';
-import { replaceSingleColor } from './plugin/replace-single-color';
+import { replaceColor } from './plugin/replace-single-color';
 import { compose, formatFilename, mergeOption, PluginFn } from './util';
 
 export interface ISvgData {
@@ -72,14 +72,16 @@ export default class Svg2js {
     const { entryFolder } = this;
   
     let target = resolveCWD(entryFolder);
+
+    console.log(target)
   
     if (!fse.existsSync(target)) {
       throw new Error('please set an exists entry folder.');
     }
   
-    if (entryFolder.startsWith('.') || entryFolder.startsWith('/') || entryFolder.startsWith('\\')) {
-      throw new Error('please set entry folder start with a folder name.');
-    }
+    // if (entryFolder.startsWith('.') || entryFolder.startsWith('/') || entryFolder.startsWith('\\')) {
+    //   throw new Error('please set entry folder start with a folder name.');
+    // }
   
     const files = globSync(`${entryFolder}/**/*.svg`);
   
@@ -159,7 +161,7 @@ export default class Svg2js {
     return compose<ISvgData>([
       collectInfo,
       removeWidthHeight,
-      replaceSingleColor,
+      replaceColor,
       ...plugins,
     ])(data);
   }

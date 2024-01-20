@@ -17,6 +17,7 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
+    "run": "tsx ./src/cli.ts -e ./assets -o public -sep",
     "build": "rm -rf dist && node ./build.js",
     "prepublishOnly": "rm -rf dist && npm run build"
   },
